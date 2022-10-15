@@ -28,9 +28,6 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: homestead
-      MYSQL_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
@@ -69,3 +66,17 @@ services:
       - PMA_ARBITRARY=1
     networks:
       - backend
+
+  artisan:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rcf-artisan
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - mysql
+    working_dir: /var/www/html
+    entrypoint: ['php','/var/www/html/artisan']
+    networks:
+      backend:
