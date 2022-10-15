@@ -12,7 +12,7 @@ class AuthControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_Register_should_be_validate()
+    public function test_Register_should_be_validated()
     {
 
         $response = $this->postJson('api/v1/auth/register');
@@ -38,7 +38,7 @@ class AuthControllerTest extends TestCase
 
     }
 
-    public function test_login_user_should_be_validate()
+    public function test_login_user_should_be_validated()
     {
 
         $response = $this->postJson('api/v1/auth/login');
