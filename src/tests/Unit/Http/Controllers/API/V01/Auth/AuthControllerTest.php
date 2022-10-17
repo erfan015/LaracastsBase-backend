@@ -6,6 +6,7 @@ use App\Models\User;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class AuthControllerTest extends TestCase
@@ -17,7 +18,7 @@ class AuthControllerTest extends TestCase
 
         $response = $this->postJson('api/v1/auth/register');
 
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
 
     }
@@ -33,7 +34,7 @@ class AuthControllerTest extends TestCase
             'password' => '123456',
         ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(Response::HTTP_CREATED);
 
 
     }
@@ -43,7 +44,7 @@ class AuthControllerTest extends TestCase
 
         $response = $this->postJson('api/v1/auth/login');
 
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
     }
 
@@ -56,7 +57,7 @@ class AuthControllerTest extends TestCase
             'password' => 'password',
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     public function test_logged_in_user_can_logout()
@@ -65,7 +66,7 @@ class AuthControllerTest extends TestCase
 
         $response = $this->actingAs($user)->postJson('api/v1/auth/logout');
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
 
     }
 

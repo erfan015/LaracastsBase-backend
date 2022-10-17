@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Tests\TestCase;
+use const Grpc\CHANNEL_CONNECTING;
 
 class ChannelControllerTest extends TestCase
 {
@@ -21,7 +22,7 @@ class ChannelControllerTest extends TestCase
     {
         $response = $this->get(route('channel.list'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     /**
@@ -31,7 +32,7 @@ class ChannelControllerTest extends TestCase
     {
         $response = $this->postJson(route('channel.create'));
 
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function test_create_new_channel()
@@ -40,7 +41,7 @@ class ChannelControllerTest extends TestCase
             'name' => 'laravel',
         ]);
 
-        $response->assertStatus(201);
+        $response->assertStatus(Response::HTTP_CREATED);
     }
 
     /**
@@ -62,6 +63,27 @@ class ChannelControllerTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals('vue.js',$updatedChannel->name);
 
+    }
+
+    public function test_channel_delete_should_be_validate()
+    {
+        $response = $this->json('DELETE',route('channel.delete'));
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+
+    public function test_delete_channel()
+    {
+        $channel=Factory::factoryForModel(Channel::class)->create();
+
+        $response = $this->json('DELETE',route('channel.delete'),[
+
+           'id' => $channel->id,
+
+        ]);
+
+        $response->assertStatus(Response::HTTP_OK);
     }
 
 }

@@ -57,4 +57,20 @@ class ChannelController extends Controller
     }
 
 
+    public function deleteChannel(Request $request)
+    {
+        $request->validate([
+
+            'id' => ['required']
+        ]);
+
+        resolve(ChannelRepository::class)->delete($request);
+
+        return response()->json([
+
+            'message' => 'deleted successfully'
+        ],Response::HTTP_OK);
+
+    }
+
 }

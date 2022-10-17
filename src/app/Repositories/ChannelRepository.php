@@ -32,7 +32,12 @@ class ChannelRepository
         ]);
     }
 
-    public function update(Request $request)
+    /**
+     * update channel by id and name
+     * @param Request $request
+     * @return void
+     */
+    public function update(Request $request):void
     {
         Channel::find($request->id)->update([
 
@@ -41,5 +46,17 @@ class ChannelRepository
 
         ]);
 
+    }
+
+    /**
+     * delete channel by id
+     * @param Request $request
+     * @return void
+     *
+     */
+
+    public function delete(Request $request) : void
+    {
+        Channel::destroy($request->id);
     }
 }
