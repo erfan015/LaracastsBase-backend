@@ -9,6 +9,8 @@ class Channel extends Model
 {
     use HasFactory;
 
+    protected $table = 'channels';
+
     protected $fillable =[
         'name',
         'slug'];

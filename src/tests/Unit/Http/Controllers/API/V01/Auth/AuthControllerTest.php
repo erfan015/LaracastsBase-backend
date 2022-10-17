@@ -62,6 +62,7 @@ class AuthControllerTest extends TestCase
     public function test_logged_in_user_can_logout()
     {
         $user = Factory::factoryForModel(User::class)->create();
+
         $response = $this->actingAs($user)->postJson('api/v1/auth/logout');
 
         $response->assertStatus(200);

@@ -5,22 +5,27 @@ namespace App\Http\Controllers\API\V01\Channel;
 use App\Http\Controllers\Controller;
 use App\Models\Channel;
 use App\Repositories\ChannelRepository;
+use DeepCopy\Filter\ReplaceFilter;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class ChannelController extends Controller
 {
     public function getAllChannelsList()
     {
-        return response()->json(Channel::all(),'200');
+
+        $channellists=resolve(ChannelRepository::class)->all(); // dependency injection
+
+        return response()->json($channellists,Response::HTTP_OK);
     }
 
     /**
      * @param Request $request
      * @return JsonResponse
      */
-    public function createNewChannel(Request $request) : JsonResponse
+    public function createNewChannel(Request $request): JsonResponse
     {
         $request->validate([
 
@@ -33,7 +38,22 @@ class ChannelController extends Controller
 
         return response()->json([
             "channel create successfully"
-        ],'201');
+        ], Response::HTTP_CREATED);
+    }
+
+
+    public function updateChannel(Request $request)
+    {
+        $request->validate([
+
+            'name' => ['required']
+        ]);
+
+        resolve(ChannelRepository::class)->update($request); // dependency inject
+
+        return response()->json([
+            'edit successfully'
+        ],Response::HTTP_OK);
     }
 
 

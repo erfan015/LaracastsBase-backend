@@ -36,6 +36,8 @@ Route::prefix('v1/')->group(function () {
     {
         Route::get('/all','API\V01\Channel\ChannelController@getAllChannelsList')->name('channel.list');
         Route::post('/channel-create','API\V01\Channel\ChannelController@createNewChannel')->name('channel.create');
+        Route::put('/update','API\V01\Channel\ChannelController@updateChannel')->name('channel.update');
+
 
     });
 });

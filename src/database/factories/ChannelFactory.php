@@ -6,7 +6,7 @@ use App\Models\Channel;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Faker\Generator as Faker;
-use Psy\Util\Str;
+use Illuminate\Support\Str;
 
 class ChannelFactory extends Factory
 {
@@ -17,13 +17,12 @@ class ChannelFactory extends Factory
      */
     public function definition()
     {
-
+        $name = $this->faker->sentence('4');
 
         return [
-            'name' => $this->faker->name(),
-
+            'name' => $name,
+            'slug' => Str::slug($name),
         ];
-
 
     }
 }

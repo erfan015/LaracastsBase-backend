@@ -2,7 +2,12 @@
 
 namespace Tests\Unit\Http\Controllers\API\V01\Channel;
 
+use App\Models\Channel;
+use App\Repositories\ChannelRepository;
+use Database\Factories\ChannelFactory;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Tests\TestCase;
 
 class ChannelControllerTest extends TestCase
@@ -37,4 +42,26 @@ class ChannelControllerTest extends TestCase
 
         $response->assertStatus(201);
     }
+
+    /**
+     * test update channel
+     */
+    public function test_channel_update()
+    {
+        $channel = Factory::factoryForModel(Channel::class)->create([
+
+            'name' => 'laravel'
+        ]);
+
+        $response = $this->json('PUT',route('channel.update'),[
+
+            'id' => $channel->id,
+            'name' => 'vue.js',
+        ]);
+        $updatedChannel=Channel::find($channel->id);
+        $response->assertStatus(Response::HTTP_OK);
+        $this->assertEquals('vue.js',$updatedChannel->name);
+
+    }
+
 }
