@@ -1,15 +1,14 @@
 <?php
 
-namespace Tests\Unit\Http\Controllers\API\V01\Auth;
+namespace Tests\Unit\API\v1\Auth;
 
 use App\Models\User;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
-class AuthControllerTest extends TestCase
+class AuthTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -1,17 +1,15 @@
 <?php
 
-namespace Tests\Unit\Http\Controllers\API\V01\Channel;
+namespace Tests\Unit\API\v1\Channel;
 
 use App\Models\Channel;
-use App\Repositories\ChannelRepository;
-use Database\Factories\ChannelFactory;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
-use const Grpc\CHANNEL_CONNECTING;
+use function route;
 
-class ChannelControllerTest extends TestCase
+class ChannelTest extends TestCase
 {
  use RefreshDatabase;
 

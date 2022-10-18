@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\V01\Auth;
+namespace App\Http\Controllers\API\v1\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -26,7 +26,7 @@ class AuthController extends Controller
             'password' => ['required']
            ]);
 
-        resolve(UserRepository::class)->create($request);
+        resolve(UserRepository::class)->create($request); // dependency injection
 
         return response()->json([
             "message" => "user create successfully"
