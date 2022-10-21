@@ -41,7 +41,7 @@ services:
     volumes:
       - ./src:/var/www/html
     ports:
-      - "9000:9000"
+      - "7000:7000"
     networks:
       - backend
 
@@ -79,4 +79,4 @@ services:
     working_dir: /var/www/html
     entrypoint: ['php','/var/www/html/artisan']
     networks:
-      backend:
+      - backend

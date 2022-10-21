@@ -5,12 +5,51 @@ namespace Tests\Unit\API\v1\Auth;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
     use RefreshDatabase;
+
+
+    public function registerRolesAndPermissions()
+    {
+        /**
+         * check Roles : exist or not exist in database , if not exist: create them
+         */
+        $roleInDatabase = Role::query()->where('name',config('permission.default_roles')[0]);
+        if($roleInDatabase->count() < 1)
+        {
+            foreach (config('permission.default_roles') as $role)
+            {
+                Role::create([
+
+                    'name' => $role,
+                ]);
+            }
+        }
+
+
+        /**
+         * check Permissions : exist or not exist in database , if not exist: create them
+         */
+
+        $permissionInDatabase = Permission::query()->where('name',config('permission.default_permissions')[0]);
+        if($permissionInDatabase->count() < 1)
+        {
+            foreach (config('permission.default_permissions') as $permission)
+            {
+                Permission::create([
+
+                    'name' => $permission,
+                ]);
+            }
+        }
+    }
+
 
     public function test_Register_should_be_validated()
     {
@@ -25,8 +64,7 @@ class AuthTest extends TestCase
 
     public function test_new_user_can_register()
     {
-
-
+        $this->registerRolesAndPermissions();
         $response = $this->postJson('api/v1/auth/register', [
             'name' => 'erfan',
             'email' => 'erfanansari@yahoo.com',
