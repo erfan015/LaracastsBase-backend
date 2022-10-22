@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\API\v1\Auth;
+namespace Tests\Feature\API\v1\Auth;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
+use function config;
 
 class AuthTest extends TestCase
 {

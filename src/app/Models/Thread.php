@@ -9,6 +9,7 @@ class Thread extends Model
 {
     use HasFactory;
 
+    protected $table = 'threads';
 
     public function channel()
     {
