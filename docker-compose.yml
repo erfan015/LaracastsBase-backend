@@ -41,7 +41,7 @@ services:
     volumes:
       - ./src:/var/www/html
     ports:
-      - "7000:7000"
+      - "9002:9002"
     networks:
       - backend
 

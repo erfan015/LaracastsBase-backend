@@ -16,7 +16,7 @@ use function route;
 
 //use function route;
 
-class ChannelTest extends TestCase
+class  ChannelTest extends TestCase
 {
  use RefreshDatabase;
 

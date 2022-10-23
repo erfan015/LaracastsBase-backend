@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Thread;
 use App\Repositories\ThreadRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
 class ThreadController extends Controller
@@ -22,5 +23,21 @@ class ThreadController extends Controller
          $thread = resolve(ThreadRepository::class)->getThreadBySlug($slug);
 
          return  response()->json($thread,Response::HTTP_OK);
+    }
+
+    public function store(Request $request)
+    {
+            $request->validate([
+                'title' => 'required',
+                'content' => 'required',
+                'channel_id' => 'required'
+            ]);
+
+
+        resolve(ThreadRepository::class)->store($request);
+
+            return \response()->json([
+               'message' => 'thread create successfully'
+            ],Response::HTTP_CREATED);
     }
 }
