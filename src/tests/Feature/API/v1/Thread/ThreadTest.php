@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -43,7 +44,7 @@ class ThreadTest extends TestCase
      * @test
      */
 
-    public function thread_should_be_validate()
+    public function thread_create_should_be_validate()
     {
         $response = $this->postJson(route('threads.store'), []);
 
@@ -55,7 +56,7 @@ class ThreadTest extends TestCase
      */
     public function create_thread()
     {
-        $this->withoutExceptionHandling();
+
         Sanctum::actingAs(Factory::factoryForModel(User::class)->create());
         $response = $this->postJson(route('threads.store'), [
             'title' => 'Foo',
@@ -64,5 +65,42 @@ class ThreadTest extends TestCase
         ]);
 
         $response->assertStatus(Response::HTTP_CREATED);
+    }
+
+    /**
+     * @test
+     */
+
+    public function update_thread_should_be_validate()
+    {
+        Sanctum::actingAs(Factory::factoryForModel(User::class)->create());
+        $thread = Factory::factoryForModel(Thread::class)->create();
+        $response = $this->putJson(route('threads.update', [$thread]));
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+   /**
+    * @test
+    */
+
+    public function update_thread()
+    {
+        Sanctum::actingAs(Factory::factoryForModel(User::class)->create());
+        $thread = Factory::factoryForModel(Thread::class)->create([
+            'title' => 'Foo',
+            'content' => 'Bar',
+            'channel_id' => Factory::factoryForModel(Channel::class)->create()->id,
+        ]);
+
+        $response = $this->putJson(route('threads.update', [$thread]), [
+            'title' => 'Bar',
+            'content' => 'Bar',
+            'channel_id' => Factory::factoryForModel(Channel::class)->create()->id,
+        ])->assertSuccessful();
+
+
+        $thread->refresh();
+        $this->assertSame('Bar' ,$thread->title);
     }
 }
