@@ -15,7 +15,8 @@ class Channel extends Model
 
     protected $fillable =[
         'name',
-        'slug'];
+        'slug'
+    ];
 
     public function threads()
     {
