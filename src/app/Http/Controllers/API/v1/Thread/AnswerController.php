@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\v1\Thread;
 
 use App\Http\Controllers\Controller;
 use App\Models\Answer;
+use App\Models\Thread;
 use App\Repositories\AnswerRepository;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +39,18 @@ class AnswerController extends Controller
 
     public function update(Request $request,Answer $answer)
     {
+           $request->validate([
+               'content' => 'required',
+
+           ]);
+
+        resolve(AnswerRepository::class)->update( $answer,$request);
+
+
+        return response()->json([
+            'message' => 'update successfully'
+        ],Response::HTTP_OK);
+
 
     }
 

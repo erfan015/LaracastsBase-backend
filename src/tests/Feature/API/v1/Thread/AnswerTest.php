@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\API\v1\Thread;
 
+use App\Models\Answer;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -13,7 +14,8 @@ use Tests\TestCase;
 
 class AnswerTest extends TestCase
 {
-    use RefreshDatabase;
+ use RefreshDatabase;
+
     /**
      * @test
      */
@@ -29,7 +31,7 @@ class AnswerTest extends TestCase
      * @test
      */
 
-    public function create_answers_should_be_validate()
+    public function create_answers_should_be_validated()
     {
         $response = $this->postJson(route('answers.store'),[]);
 
@@ -53,5 +55,40 @@ class AnswerTest extends TestCase
 
         $this->assertTrue($thread->answers()->where('content', 'Foo')->exists());
 
+
+
     }
+
+    /**
+     * @test
+     */
+    public function update_answers_should_be_validated()
+    {
+        $answer = Factory::factoryForModel(Answer::class)->create();
+        $response = $this->putJson(route('answers.update',$answer));
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+
+    /**
+     * @test
+     */
+    public function update_answers()
+    {
+        Sanctum::actingAs(Factory::factoryForModel(User::class)->create());
+        $answer = Factory::factoryForModel(Answer::class)->create([
+            'content' => 'Foo',
+        ]);
+        $response = $this->putJson(route('answers.update',$answer),[
+            'content' => 'Bar'
+        ]);
+
+        $answer->refresh();
+
+        $response->assertStatus(Response::HTTP_OK);
+        $this->assertEquals('Bar',$answer->content);
+
+    }
+
 }
