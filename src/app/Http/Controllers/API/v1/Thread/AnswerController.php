@@ -44,7 +44,7 @@ class AnswerController extends Controller
 
            ]);
 
-        resolve(AnswerRepository::class)->update( $answer,$request);
+        resolve(AnswerRepository::class)->update( $answer,$request); \\ repository design pattern
 
 
         return response()->json([
